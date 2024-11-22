@@ -7,7 +7,7 @@ namespace PhoneBook.mefdev.Controllers;
 
 internal class NotificationController: BaseController
 {
-    private ContactService _contactService { get; set; }
+    private ContactService _contactService;
 
     public NotificationController(ContactService contactService)
 	{

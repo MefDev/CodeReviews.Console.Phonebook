@@ -1,5 +1,6 @@
 ﻿using PhoneBook.mefdev.Service;
 using PhoneBook.mefdev.Shared.Interfaces;
+using PhoneBook.mefdev.Models;
 using Spectre.Console;
 
 namespace PhoneBook.mefdev.Controllers;
@@ -26,18 +27,7 @@ internal class CategoryController : BaseController, IBaseController
     {
         RenderCustomLine("DodgerBlue1", "DELETE A CATEGORY");
 
-        var categories = _categoryService.GetAllCategories();
-        if (categories == null)
-        {
-            DisplayMessage("Categories are not found or Empty", "red");
-            return;
-        }
-        var categoryName = AnsiConsole.Prompt(new SelectionPrompt<string>()
-            .Title("Select a [red]category[/] to delete")
-            .PageSize(10)
-            .MoreChoicesText("[grey](Move up and down to reveal more choices)[/]")
-            .AddChoices(categories.Select(c => c.Name)));
-        var category = _categoryService.GetCategoryByName(categoryName);
+        var category =  GetCategory("delete");
         if (category == null)
         {
             DisplayMessage("A category is not found", "red");
@@ -54,19 +44,7 @@ internal class CategoryController : BaseController, IBaseController
     {
         RenderCustomLine("DodgerBlue1", "UPDATE A CATEGORY");
 
-        var categories = _categoryService.GetAllCategories();
-        if(categories == null)
-        {
-            DisplayMessage("Categories are not found or Empty", "red");
-            return;
-        }
-        var categoryName = AnsiConsole.Prompt(
-        new SelectionPrompt<string>()
-           .Title("Select a [red]category[/] to update")
-           .PageSize(10)
-           .MoreChoicesText("[grey](Move up and down to reveal more choices)[/]")
-           .AddChoices(categories.Select(c => c.Name)));
-        var category = _categoryService.GetCategoryByName(categoryName);
+        var category = GetCategory("update");
         if (category == null)
         {
             DisplayMessage("A category is not found", "red");
@@ -82,18 +60,7 @@ internal class CategoryController : BaseController, IBaseController
     {
         RenderCustomLine("DodgerBlue1", "Category");
 
-        var categories = _categoryService.GetAllCategories();
-        if (categories == null)
-        {
-            DisplayMessage("Categories are not found or Empty", "red");
-            return;
-        }
-        var categoryName = AnsiConsole.Prompt(new SelectionPrompt<string>()
-            .Title("Select a [green]Contact[/] to view")
-            .PageSize(10)
-            .MoreChoicesText("[grey](Move up and down to reveal more choices)[/]")
-            .AddChoices(categories.Select(c => c.Name)));
-        var category = _categoryService.GetCategoryByName(categoryName);
+        var category = GetCategory("view");
         if (category == null)
         {
             DisplayMessage("A category is not found", "red");
@@ -113,5 +80,21 @@ internal class CategoryController : BaseController, IBaseController
             return;
         }
         DisplayAllItems(categories);
+    }
+    
+    private Category? GetCategory(string methodName){
+        
+        var categories = _categoryService.GetAllCategories();
+        if (categories == null)
+        {
+            DisplayMessage("Categories are not found or Empty", "red");
+            return null;
+        }
+        var categoryName = AnsiConsole.Prompt(new SelectionPrompt<string>()
+            .Title($"Select a [red]category[/] to {methodName}")
+            .PageSize(10)
+            .MoreChoicesText("[grey](Move up and down to reveal more choices)[/]")
+            .AddChoices(categories.Select(c => c.Name)));
+        return _categoryService.GetCategoryByName(categoryName);
     }
 }

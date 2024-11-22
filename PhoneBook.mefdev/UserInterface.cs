@@ -39,11 +39,11 @@ internal class UserInterface: BaseController
                     break;
 
                 case MainOptionMenu.ManageContacts:
-                    HandleCRUDMenu(CRUDMenu.AddContact, CRUDMenu.ViewContacts);
+                    HandleCrudMenu(CRUDMenu.AddContact, CRUDMenu.ViewContacts);
                     break;
 
                 case MainOptionMenu.ManageCategories:
-                    HandleCRUDMenu(CRUDMenu.AddCategory, CRUDMenu.ViewCategories);
+                    HandleCrudMenu(CRUDMenu.AddCategory, CRUDMenu.ViewCategories);
                     break;
 
                 case MainOptionMenu.SendNotifications:
@@ -57,7 +57,7 @@ internal class UserInterface: BaseController
         }
     }
 
-    public void HandleCRUDMenu(CRUDMenu firstCrudOperation, CRUDMenu lastCrudOperation)
+    public void HandleCrudMenu(CRUDMenu firstCrudOperation, CRUDMenu lastCrudOperation)
     {
         while (true)
         {
